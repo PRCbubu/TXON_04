@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/TitleBar"
         android:fontFamily="@font/royalacid"
-        android:textColor="@color/white"
+        android:textColor="@color/Yellow"
         android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
@@ -24,12 +24,52 @@
     <LinearLayout
         android:id="@+id/SearchLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp"
-
+        android:orientation="horizontal"
+        android:background="@drawable/searchbox"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/SearchIcon"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/baseline_search_24"
+            android:tint="@color/Green1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/SearchText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@null"
+            android:fontFamily="@font/lightitalic"
+            android:hint="@string/SearchHint"
+            android:textSize="@dimen/_12sdp"
+            android:textColorHint="@color/Green2"
+            android:textColor="@color/Green1"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:includeFontPadding="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/QuickActionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Green4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
 
     </LinearLayout>
 
