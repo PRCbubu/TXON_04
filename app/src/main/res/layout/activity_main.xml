@@ -47,7 +47,7 @@
             android:src="@drawable/baseline_search_24"
             android:tint="@color/Green1" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/SearchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
