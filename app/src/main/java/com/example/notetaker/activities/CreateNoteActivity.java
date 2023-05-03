@@ -1,10 +1,12 @@
-package com.example.notetaker;
+package com.example.notetaker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.notetaker.R;
 
 public class CreateNoteActivity extends AppCompatActivity
 {

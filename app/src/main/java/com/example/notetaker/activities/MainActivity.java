@@ -1,13 +1,13 @@
-package com.example.notetaker;
+package com.example.notetaker.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
+import com.example.notetaker.R;
 
 public class MainActivity extends AppCompatActivity
 {
