@@ -2,4 +2,6 @@
     <string name="app_name">NoteTaker</string>
     <string name="TitleBar">My Notes</string>
     <string name="SearchHint">Enter your search</string>
+    <string name="NoteTtitle">Note Ttitle</string>
+    <string name="NoteSubtitle">Note Subtitle</string>
 </resources>

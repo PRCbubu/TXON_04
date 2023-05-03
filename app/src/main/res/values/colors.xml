@@ -8,7 +8,9 @@
     <color name="Green4">#025951</color>
     <color name="Green5">#044040</color>
     <color name="Green6">#034159</color>
-    <color name="Red">#D92525</color>
+    <color name="Red">#C83535</color>
     <color name="Yellow">#F3FDEDA5</color>
+    <color name="YellowLite">#B0FDEDA5</color>
+    <color name="Blue">#3B5FCF</color>
 
 </resources>

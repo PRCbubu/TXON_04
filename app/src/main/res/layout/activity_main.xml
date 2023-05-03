@@ -9,30 +9,34 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/TitleBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/TitleBar"
-        android:fontFamily="@font/royalacid"
-        android:textColor="@color/Yellow"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:textSize="@dimen/_21ssp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/royalacid"
         android:includeFontPadding="false"
+        android:text="@string/TitleBar"
+        android:textColor="@color/Yellow"
+        android:textSize="@dimen/_21ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/SearchLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:orientation="horizontal"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/searchbox"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -41,7 +45,7 @@
             android:layout_height="@dimen/_20sdp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/baseline_search_24"
-            android:tint="@color/Green1"/>
+            android:tint="@color/Green1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/SearchText"
@@ -52,26 +56,78 @@
             android:background="@null"
             android:fontFamily="@font/lightitalic"
             android:hint="@string/SearchHint"
-            android:textSize="@dimen/_12sdp"
-            android:textColorHint="@color/Green2"
-            android:textColor="@color/Green1"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:textColor="@color/Green1"
+            android:textColorHint="@color/Green2"
+            android:textSize="@dimen/_12sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/QuickActionLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/Green4"
+        android:background="@drawable/bar"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageAddNotesButton">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/AddNotes"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/round_add_24" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/AddImage"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/outline_image_24" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/AddLink"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/baseline_add_link_24" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/SearchLayout"
+        app:layout_constraintBottom_toTopOf="@+id/QuickActionLayout"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageAddNotesButton"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_40sdp"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/_2sdp"
+        android:src="@drawable/round_add_24"
+        android:tint="@color/Green4"
+        android:background="@drawable/background_add_button"
+        app:layout_constraintBottom_toTopOf="@+id/QuickActionLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/QuickActionLayout"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
