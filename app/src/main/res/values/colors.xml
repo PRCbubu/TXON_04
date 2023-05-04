@@ -8,9 +8,17 @@
     <color name="Green4">#025951</color>
     <color name="Green5">#044040</color>
     <color name="Green6">#034159</color>
+    <color name="Green7">#0C3222</color>
     <color name="Red">#C83535</color>
     <color name="Yellow">#F3FDEDA5</color>
     <color name="YellowLite">#B0FDEDA5</color>
     <color name="Blue">#3B5FCF</color>
+
+    <color name="Colour1">#D61355</color>
+    <color name="Colour2">#4D13D6</color>
+    <color name="Colour3">#1DAC51</color>
+    <color name="Colour4">#D64113</color>
+    <color name="Colour5">#D61355</color>
+    <color name="Colour6">#D6D313</color>
 
 </resources>

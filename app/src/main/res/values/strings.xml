@@ -5,4 +5,5 @@
     <string name="NoteTtitle">Note Ttitle</string>
     <string name="NoteSubtitle">Note Subtitle</string>
     <string name="type_note_here">Type note here...</string>
+    <string name="pickColour">Pick a colour</string>
 </resources>
