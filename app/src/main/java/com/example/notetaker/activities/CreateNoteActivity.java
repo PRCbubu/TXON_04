@@ -58,6 +58,7 @@ public class CreateNoteActivity extends AppCompatActivity
 
     private String selectedNoteColour;
     private String selectedImagePath;
+    private Note alreadyAvailableNote;
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
@@ -88,8 +89,29 @@ public class CreateNoteActivity extends AppCompatActivity
         selectedNoteColour = "#044040";
         selectedImagePath = "";
 
+        if(getIntent().getBooleanExtra("isViewOnUpdate", false))
+        {
+            alreadyAvailableNote = (Note) getIntent().getSerializableExtra("note");
+            setViewOrUpdateNote();
+        }
+
         initMiscellaneous();
         setSubtitleIndicatorColour();
+    }
+
+    private void setViewOrUpdateNote()
+    {
+        inputNoteTitle.setText(alreadyAvailableNote.getTitle());
+        inputNoteSubtitle.setText(alreadyAvailableNote.getSubtitle());
+        inputNote.setText(alreadyAvailableNote.getNote_text());
+        textDateTime.setText(alreadyAvailableNote.getDate_time());
+
+        if(alreadyAvailableNote.getImage_path() != null && !alreadyAvailableNote.getImage_path().trim().isEmpty())
+        {
+            imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImage_path()));
+            imageNote.setVisibility(View.VISIBLE);
+            selectedImagePath = alreadyAvailableNote.getImage_path();
+        }
     }
 
     private void saveNote()
@@ -110,6 +132,9 @@ public class CreateNoteActivity extends AppCompatActivity
         note.setDate_time(textDateTime.getText().toString());
         note.setColour(selectedNoteColour);
         note.setImage_path(selectedImagePath);
+
+        if(alreadyAvailableNote != null)
+            note.setId(alreadyAvailableNote.getId());
 
         class saveNoteTask extends AsyncTask<Void, Void, Void>
         {
@@ -235,6 +260,18 @@ public class CreateNoteActivity extends AppCompatActivity
                 setSubtitleIndicatorColour();
             }
         });
+
+        if(alreadyAvailableNote != null && alreadyAvailableNote.getColour() != null && !alreadyAvailableNote.getColour().trim().isEmpty())
+        {
+            switch (alreadyAvailableNote.getColour())
+            {
+                case "#044040" : LayoutMiscellaneous.findViewById(R.id.viewColour2).performClick(); break;
+                case "#4D13D6" : LayoutMiscellaneous.findViewById(R.id.viewColour3).performClick(); break;
+                case "#1DAC51" : LayoutMiscellaneous.findViewById(R.id.viewColour4).performClick(); break;
+                case "#D61355" : LayoutMiscellaneous.findViewById(R.id.viewColour5).performClick(); break;
+
+            }
+        }
 
         LayoutMiscellaneous.findViewById(R.id.layoutAddImage).setOnClickListener(new View.OnClickListener()
         {
