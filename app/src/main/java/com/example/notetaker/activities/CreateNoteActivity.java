@@ -1,17 +1,33 @@
 package com.example.notetaker.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -21,6 +37,7 @@ import com.example.notetaker.R;
 import com.example.notetaker.entities.Note;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,9 +51,16 @@ public class CreateNoteActivity extends AppCompatActivity
     private AppCompatEditText inputNoteTitle, inputNoteSubtitle, inputNote;
     private AppCompatTextView textDateTime;
 
+    private AppCompatImageView imageNote;
+    private AppCompatImageView imageNote2;
+
     private View viewSubtitleIndicator;
 
-    private String selectedColour;
+    private String selectedNoteColour;
+    private String selectedImagePath;
+
+    private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
+    private static final int REQUEST_CODE_SELECT_IMAGE = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -52,6 +76,8 @@ public class CreateNoteActivity extends AppCompatActivity
         inputNote = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         viewSubtitleIndicator = findViewById(R.id.viewSubtitleIndicator);
+        imageNote = findViewById(R.id.imageNote);
+        imageNote2 = findViewById(R.id.imageNote2);
 
         textDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
 
@@ -59,10 +85,11 @@ public class CreateNoteActivity extends AppCompatActivity
 
         imageSave.setOnClickListener(view -> saveNote());
 
-        //selectedColour = "#044040";
+        selectedNoteColour = "#044040";
+        selectedImagePath = "";
 
         initMiscellaneous();
-        setSubtileIndicatorColour();
+        setSubtitleIndicatorColour();
     }
 
     private void saveNote()
@@ -81,27 +108,8 @@ public class CreateNoteActivity extends AppCompatActivity
         note.setSubtitle(inputNoteSubtitle.getText().toString());
         note.setNote_text(inputNote.getText().toString());
         note.setDate_time(textDateTime.getText().toString());
-        note.setColour(selectedColour);
-
-
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        Handler handler = new Handler(Looper.getMainLooper());
-//
-//        executor.execute(() ->
-//        {
-//
-//            //Background work here
-//            NoteDatabase.getDatabase(getApplicationContext()).noteDao().insertNote(note);
-//
-//            handler.post(() ->
-//            {
-//                //UI Thread work here
-//                Intent intent = new Intent();
-//                setResult(RESULT_OK, intent);
-//                finish();
-//            });
-//        });
-
+        note.setColour(selectedNoteColour);
+        note.setImage_path(selectedImagePath);
 
         class saveNoteTask extends AsyncTask<Void, Void, Void>
         {
@@ -158,13 +166,13 @@ public class CreateNoteActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                selectedColour = "#044040";
+                selectedNoteColour = "#044040";
                 imageColour1.setImageResource(R.drawable.baseline_done_24);
                 imageColour2.setImageResource(0);
                 imageColour3.setImageResource(0);
                 imageColour4.setImageResource(0);
                 imageColour5.setImageResource(0);
-                setSubtileIndicatorColour();
+                setSubtitleIndicatorColour();
             }
         });
 
@@ -173,66 +181,162 @@ public class CreateNoteActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                selectedColour = "#D61355";
+                selectedNoteColour = "#D61355";
                 imageColour1.setImageResource(0);
                 imageColour2.setImageResource(R.drawable.baseline_done_24);
                 imageColour3.setImageResource(0);
                 imageColour4.setImageResource(0);
                 imageColour5.setImageResource(0);
-                setSubtileIndicatorColour();
+                setSubtitleIndicatorColour();
             }
         });
 
-        LayoutMiscellaneous.findViewById(R.id.viewColoue3).setOnClickListener(new View.OnClickListener()
+        LayoutMiscellaneous.findViewById(R.id.viewColour3).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                selectedColour = "#4D13D6";
+                selectedNoteColour = "#4D13D6";
                 imageColour1.setImageResource(0);
                 imageColour2.setImageResource(0);
                 imageColour3.setImageResource(R.drawable.baseline_done_24);
                 imageColour4.setImageResource(0);
                 imageColour5.setImageResource(0);
-                setSubtileIndicatorColour();
+                setSubtitleIndicatorColour();
             }
         });
 
-        LayoutMiscellaneous.findViewById(R.id.viewColoue4).setOnClickListener(new View.OnClickListener()
+        LayoutMiscellaneous.findViewById(R.id.viewColour4).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                selectedColour = "#1DAC51";
+                selectedNoteColour = "#1DAC51";
                 imageColour1.setImageResource(0);
                 imageColour2.setImageResource(0);
                 imageColour3.setImageResource(0);
                 imageColour4.setImageResource(R.drawable.baseline_done_24);
                 imageColour5.setImageResource(0);
-                setSubtileIndicatorColour();
+                setSubtitleIndicatorColour();
             }
         });
 
-        LayoutMiscellaneous.findViewById(R.id.viewColoue5).setOnClickListener(new View.OnClickListener()
+        LayoutMiscellaneous.findViewById(R.id.viewColour5).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                selectedColour = "#D61355";
+                selectedNoteColour = "#D61355";
                 imageColour1.setImageResource(0);
                 imageColour2.setImageResource(0);
                 imageColour3.setImageResource(0);
                 imageColour4.setImageResource(0);
                 imageColour5.setImageResource(R.drawable.baseline_done_24);
-                setSubtileIndicatorColour();
+                setSubtitleIndicatorColour();
             }
         });
 
+        LayoutMiscellaneous.findViewById(R.id.layoutAddImage).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(CreateNoteActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSION);
+                }
+                else
+                {
+                    selectImage();
+                }
+            }
+        });
     }
 
-    private void setSubtileIndicatorColour()
+    private void setSubtitleIndicatorColour()
     {
         GradientDrawable gradientDrawable = (GradientDrawable) viewSubtitleIndicator.getBackground();
-        gradientDrawable.setColor(Color.parseColor(selectedColour));
+        gradientDrawable.setColor(Color.parseColor(selectedNoteColour));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.length >0)
+        {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                selectImage();
+        }
+        else
+        {
+            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK)
+            if(data != null)
+            {
+                Uri selectedImageUri = data.getData();
+                if(selectedImageUri != null)
+                {
+                    try
+                    {
+
+                        InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        imageNote.setImageBitmap(bitmap);
+                        imageNote.setVisibility(View.VISIBLE);
+
+                        Resources res = getResources();
+                        RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(res, bitmap);
+                        dr.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight())/0.02f);
+
+                        imageNote.setImageDrawable(dr);
+
+                        selectedImagePath = getPathFromUri(selectedImageUri);
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    }
+
+    private String getPathFromUri(Uri contentUri)
+    {
+        String filePath;
+        Cursor cursor = getContentResolver().query(contentUri,null, null, null, null);
+
+        if(cursor == null)
+            filePath = contentUri.getPath();
+        else
+        {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex("_data");
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
+        return filePath;
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private void selectImage()
+    {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        if(intent.resolveActivity(getPackageManager()) != null)
+            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
+
+
     }
 }

@@ -9,6 +9,14 @@
     android:background="@drawable/background_notes"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageNote2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:foreground="@drawable/imageview"
+        android:visibility="gone"/>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textTtile"
         android:layout_width="match_parent"

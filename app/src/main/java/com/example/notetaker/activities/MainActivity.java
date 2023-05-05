@@ -17,19 +17,23 @@ import android.view.View;
 
 import com.example.notetaker.Adapters.NotesAdapter;
 import com.example.notetaker.Database.NoteDatabase;
+import com.example.notetaker.Listeners.NotesListener;
 import com.example.notetaker.R;
 import com.example.notetaker.entities.Note;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements NotesListener
 {
     public static final int REQUEST_CODE_ADD_NOTE = 1;
+    public static final int REQUEST_CODE_UPDATE_NOTE = 2;
 
     private RecyclerView notesRecyclerView;
     private List<Note> noteList;
     private NotesAdapter notesAdapter;
+
+    private int noteClickedPosition = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,16 +41,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         AppCompatImageView imageAddNotesButton = findViewById(R.id.imageAddNotesButton);
-        imageAddNotesButton.setOnClickListener(new View.OnClickListener()
+        imageAddNotesButton.setOnClickListener(view ->
         {
-            @Override
-            public void onClick(View view)
-            {
-                //Toast.makeText(getApplicationContext(), "Pressed", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-                startActivity(intent);
-                int requestCodeAddNote = REQUEST_CODE_ADD_NOTE;
-            }
+            //Toast.makeText(getApplicationContext(), "Pressed", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+//            startActivity(intent);
+            startActivityForResult(
+                    new Intent(getApplicationContext(), CreateNoteActivity.class), REQUEST_CODE_ADD_NOTE
+            );
         });
 
         notesRecyclerView = findViewById(R.id.notesRecyclerView);
@@ -55,14 +57,22 @@ public class MainActivity extends AppCompatActivity
         );
 
         noteList = new ArrayList<>();
-        notesAdapter = new NotesAdapter(noteList);
+        notesAdapter = new NotesAdapter(noteList, this);
         notesRecyclerView.setAdapter(notesAdapter);
 
         getNotes();
     }
 
 
-
+    @Override
+    public void onNoteClicked(Note note, int position)
+    {
+        noteClickedPosition = position;
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isViewOnUpdate", true);
+        intent.putExtra("note", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
+    }
 
     private void getNotes()
     {
