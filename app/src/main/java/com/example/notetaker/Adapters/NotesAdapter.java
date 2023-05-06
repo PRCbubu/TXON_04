@@ -2,6 +2,7 @@ package com.example.notetaker.Adapters;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
+import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -49,7 +50,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoteViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull NoteViewHolder holder, final int position)
     {
         holder.setNote(notes.get(position));
         holder.LayoutNote.setOnClickListener(new View.OnClickListener()
@@ -102,9 +103,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             if(note.getSubtitle().trim().isEmpty())
                 textSubtitle.setVisibility(View.GONE);
             else
-                textSubtitle.setText(note.getDate_time());
+                textSubtitle.setText(note.getSubtitle());
 
-            textDateTime.setText(note.getNote_text());
+            textDateTime.setText(note.getDate_time());
 
             GradientDrawable gradientDrawable = (GradientDrawable) LayoutNote.getBackground();
             if(note.getColour() != null)
@@ -118,8 +119,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
                 gradientDrawable.setColor(Color.parseColor("#044040"));
             }
 
-            if(note.getImage_path() != null)
+            if(!note.getImage_path().isEmpty())
             {
+                Log.i("sys", note.getImage_path());
+                Log.i("SYSTEM", "");
                 imageNote2.setImageBitmap(BitmapFactory.decodeFile(note.getImage_path()));
                 imageNote2.setVisibility(View.VISIBLE);
             }

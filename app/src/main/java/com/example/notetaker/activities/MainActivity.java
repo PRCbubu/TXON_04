@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener
     {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK)
-            getNotes(REQUEST_CODE_SHOW_NOTES);
+            getNotes(REQUEST_CODE_ADD_NOTE);
         else if(requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK)
             if(data != null)
                 getNotes(REQUEST_CODE_UPDATE_NOTE);

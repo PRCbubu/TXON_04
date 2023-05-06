@@ -251,7 +251,7 @@ public class CreateNoteActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                selectedNoteColour = "#D61355";
+                selectedNoteColour = "#D64113";
                 imageColour1.setImageResource(0);
                 imageColour2.setImageResource(0);
                 imageColour3.setImageResource(0);
@@ -265,10 +265,10 @@ public class CreateNoteActivity extends AppCompatActivity
         {
             switch (alreadyAvailableNote.getColour())
             {
-                case "#044040" : LayoutMiscellaneous.findViewById(R.id.viewColour2).performClick(); break;
+                case "#D61355" : LayoutMiscellaneous.findViewById(R.id.viewColour2).performClick(); break;
                 case "#4D13D6" : LayoutMiscellaneous.findViewById(R.id.viewColour3).performClick(); break;
                 case "#1DAC51" : LayoutMiscellaneous.findViewById(R.id.viewColour4).performClick(); break;
-                case "#D61355" : LayoutMiscellaneous.findViewById(R.id.viewColour5).performClick(); break;
+                case "#D64113" : LayoutMiscellaneous.findViewById(R.id.viewColour5).performClick(); break;
 
             }
         }
@@ -333,11 +333,11 @@ public class CreateNoteActivity extends AppCompatActivity
                         imageNote.setImageBitmap(bitmap);
                         imageNote.setVisibility(View.VISIBLE);
 
-                        Resources res = getResources();
-                        RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(res, bitmap);
-                        dr.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight())/0.02f);
-
-                        imageNote.setImageDrawable(dr);
+//                        Resources res = getResources();
+//                        RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(res, bitmap);
+//                        dr.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight())/0.02f);
+//
+//                        imageNote.setImageDrawable(dr);
 
                         selectedImagePath = getPathFromUri(selectedImageUri);
                     }
