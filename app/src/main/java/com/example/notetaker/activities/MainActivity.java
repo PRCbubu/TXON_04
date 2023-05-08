@@ -2,6 +2,7 @@ package com.example.notetaker.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
@@ -62,7 +65,30 @@ public class MainActivity extends AppCompatActivity implements NotesListener
         notesAdapter = new NotesAdapter(noteList, this);
         notesRecyclerView.setAdapter(notesAdapter);
 
-        getNotes(REQUEST_CODE_SHOW_NOTES);
+        getNotes(REQUEST_CODE_SHOW_NOTES, false);
+
+        AppCompatEditText inputSearch = findViewById(R.id.SearchText);
+        inputSearch.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                notesAdapter.cancelTimer();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                if(noteList.size() != 0)
+                    notesAdapter.searchedNotes(editable.toString());
+            }
+        });
     }
 
 
@@ -76,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener
         startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
     }
 
-    private void getNotes(final int requestCode)
+    private void getNotes(final int requestCode, final boolean isNoteDeleted)
     {
 
         //        ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -129,8 +155,14 @@ public class MainActivity extends AppCompatActivity implements NotesListener
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE)
                 {
                     noteList.remove(noteClickedPosition);
-                    noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
-                    notesAdapter.notifyItemChanged(noteClickedPosition);
+
+                    if(isNoteDeleted)
+                        notesAdapter.notifyItemRemoved(noteClickedPosition);
+                    else
+                    {
+                        noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
+                        notesAdapter.notifyItemChanged(noteClickedPosition);
+                    }
                 }
 
             }
@@ -150,10 +182,10 @@ public class MainActivity extends AppCompatActivity implements NotesListener
     {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK)
-            getNotes(REQUEST_CODE_ADD_NOTE);
+            getNotes(REQUEST_CODE_ADD_NOTE, false);
         else if(requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK)
             if(data != null)
-                getNotes(REQUEST_CODE_UPDATE_NOTE);
+                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
 
     }
 }
