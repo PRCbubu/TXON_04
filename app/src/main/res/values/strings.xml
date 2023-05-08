@@ -7,4 +7,9 @@
     <string name="type_note_here">Type note here...</string>
     <string name="pickColour">Pick a colour</string>
     <string name="addimage">Add Image</string>
+    <string name="add_weblink">Add WebLink</string>
+    <string name="add_url">Add URL</string>
+    <string name="enter_url">Enter URL</string>
+    <string name="add">add</string>
+    <string name="cancel">Cancel</string>
 </resources>
